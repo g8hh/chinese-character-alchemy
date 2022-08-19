@@ -1,5 +1,6 @@
 import Field from "../util/Field.js";
 import GameFieldItem from "./GameFieldItem.js";
+import parseMouseButtons from "../../util/parseMouseButtons.js";
 export default class GameField {
     constructor(game, options) {
         this.game = game;
@@ -34,7 +35,8 @@ export default class GameField {
             }
             this.lastPosition = curPosition;
         });
-        document.addEventListener("mousedown", () => {
+        document.addEventListener("mousedown", (e) => {
+            const mouseButton = parseMouseButtons(e, "button");
             this.isMouseDown = true;
             const { x, y } = this.field.globalToLocalAttr({
                 x: this.lastPosition[0],
@@ -42,12 +44,20 @@ export default class GameField {
             });
             this.selectedItem = this.items.find(item => item.isPointInItem(x, y));
             if (this.selectedItem) {
-                this.items = this.items.filter(item => item !== this.selectedItem);
-                this.items.unshift(this.selectedItem);
+                if (mouseButton.rightClick) {
+                    this.items = this.items.filter(item => item !== this.selectedItem);
+                }
+                else {
+                    this.items = this.items.filter(item => item !== this.selectedItem);
+                    this.items.unshift(this.selectedItem);
+                }
             }
         });
         this.canvasEl.addEventListener("mouseout", () => {
             this.isMouseDown = false;
+        });
+        this.canvasEl.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
         });
         document.addEventListener("mouseup", () => {
             this.isMouseDown = false;
