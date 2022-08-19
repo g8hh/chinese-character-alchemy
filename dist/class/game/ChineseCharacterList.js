@@ -5,6 +5,7 @@ export default class ChineseCharacterList {
         this.unlocked = options.unlocked
             .map(char => this.chineseCharacters.findIndex(c => c.glyph === char))
             .filter(idx => idx !== -1);
+        this.listTitleEl = options.listTitleEl;
         this.listWrapperEl = options.listWrapperEl;
         this.listItemEls = [];
         this.init();
@@ -48,6 +49,7 @@ export default class ChineseCharacterList {
             });
             this.updateEl(i);
         }
+        this.updateTitle();
     }
     unlockItem(idx) {
         if (this.unlocked.includes(idx))
@@ -59,6 +61,13 @@ export default class ChineseCharacterList {
         for (const shape of chineseCharacter.shapes) {
             this.updateEl(shape.index);
         }
+        this.updateTitle();
+    }
+    updateTitle() {
+        const titleEl = this.listTitleEl;
+        const progress = this.unlocked.length / this.chineseCharacters.length;
+        titleEl.innerText = `List (${this.unlocked.length}/${this.chineseCharacters.length})`;
+        titleEl.style.setProperty("--progress", progress * 100 + "%");
     }
     updateEl(idx) {
         const els = this.listItemEls[idx];

@@ -8,6 +8,7 @@ const game = new Game({
   chineseCharacterList: {
     chineseCharacters,
     listWrapperEl: document.getElementById("list-wrapper") as HTMLDivElement,
+    listTitleEl: document.getElementById("list-title") as HTMLDivElement,
     unlocked: savedata !== null ? JSON.parse(savedata) : []
   },
   gameField: {

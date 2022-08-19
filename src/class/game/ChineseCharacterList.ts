@@ -4,6 +4,7 @@ import type ChineseCharacter from "./ChineseCharacter.js";
 export interface ChineseCharacterListOptions {
   chineseCharacters: ChineseCharacter[];
   unlocked: string[];
+  listTitleEl: HTMLElement;
   listWrapperEl: HTMLElement;
 }
 interface ListItemEl {
@@ -19,6 +20,7 @@ export default class ChineseCharacterList {
   readonly chineseCharacters: ChineseCharacter[];
   readonly unlocked: number[];
   readonly listWrapperEl: HTMLElement;
+  readonly listTitleEl: HTMLElement;
   private readonly listItemEls: ListItemEl[];
 
   constructor(game: Game, options: ChineseCharacterListOptions) {
@@ -27,6 +29,7 @@ export default class ChineseCharacterList {
     this.unlocked = options.unlocked
       .map(char => this.chineseCharacters.findIndex(c => c.glyph === char))
       .filter(idx => idx !== -1);
+    this.listTitleEl = options.listTitleEl;
     this.listWrapperEl = options.listWrapperEl;
     this.listItemEls = [];
 
@@ -77,6 +80,7 @@ export default class ChineseCharacterList {
 
       this.updateEl(i);
     }
+    this.updateTitle();
   }
 
   unlockItem(idx: number) {
@@ -90,6 +94,16 @@ export default class ChineseCharacterList {
     for (const shape of chineseCharacter.shapes) {
       this.updateEl(shape.index);
     }
+    
+    this.updateTitle();
+  }
+
+  updateTitle() {
+    const titleEl = this.listTitleEl;
+    const progress = this.unlocked.length / this.chineseCharacters.length;
+
+    titleEl.innerText = `List (${this.unlocked.length}/${this.chineseCharacters.length})`;
+    titleEl.style.setProperty("--progress", progress*100 + "%");
   }
 
   updateEl(idx: number) {
