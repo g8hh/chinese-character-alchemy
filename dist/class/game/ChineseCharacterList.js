@@ -38,7 +38,6 @@ export default class ChineseCharacterList {
             itemEl.appendChild(idxEl);
             const progressEl = document.createElement("div");
             progressEl.classList.add("list-item__progress");
-            progressEl.style.setProperty("--progress", progress * 100 + "%");
             itemEl.appendChild(progressEl);
             this.listItemEls.push({
                 wrapper: itemEl,
@@ -47,6 +46,7 @@ export default class ChineseCharacterList {
                 index: idxEl,
                 progress: progressEl
             });
+            this.updateEl(i);
         }
     }
     unlockItem(idx) {

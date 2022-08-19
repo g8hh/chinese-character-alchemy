@@ -103,6 +103,20 @@ body {
 #list-wrapper > .list-item:hover {
   filter: invert(1);
 }
+#list-wrapper > .list-item[inner-info]:hover::after {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  backdrop-filter: blur(3px);
+
+  content: attr(inner-info);
+}
 #list-wrapper > .list-item > div {
   position: absolute;
 }
