@@ -15,6 +15,7 @@ for (const rawGlyphData of rawChineseCharactersDatas) {
     chineseCharactersMap.set(glyph, chineseCharacter);
     idx++;
 }
+let missings = "";
 for (const rawGlyphData of rawChineseCharactersDatas) {
     const chineseCharacter = chineseCharactersMap.get(rawGlyphData.glyph);
     if (typeof chineseCharacter === "undefined")
@@ -24,10 +25,13 @@ for (const rawGlyphData of rawChineseCharactersDatas) {
         const shapeChineseCharacter = chineseCharactersMap.get(shape);
         if (typeof shapeChineseCharacter === "undefined") {
             console.log("missing shape", shape);
+            missings += shape;
             continue;
         }
         chineseCharacter.addShape(shapeChineseCharacter);
         shapeChineseCharacter.addParent(chineseCharacter);
     }
 }
+if (missings !== "")
+    console.log([...new Set(Array.from(missings))].join(""));
 export default chineseCharacters;
