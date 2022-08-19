@@ -92,7 +92,7 @@ export default class GameField {
     const result = item.mergeWith(collisions);
     if (result === null) return;
     const [crafted, merged] = result;
-    this.game.list.unlockItem(crafted.index);
+    this.game.unlockItem(crafted.index);
     const position = [...item.position];
     this.items = this.items.filter(item => !merged.includes(item));
 
