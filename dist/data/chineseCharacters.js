@@ -5,19 +5,18 @@ const chineseCharacters = [];
 const chineseCharactersMap = new Map();
 let idx = 0;
 for (const rawGlyphData of rawChineseCharactersDatas) {
-    const glyph = rawGlyphData.hanja;
+    const glyph = rawGlyphData.glyph;
     const chineseCharacter = new ChineseCharacter({
         index: idx,
         glyph,
-        strokes: rawGlyphData.strokeCount,
-        korName: rawGlyphData.name
+        strokes: rawGlyphData.strokeCount
     });
     chineseCharacters.push(chineseCharacter);
     chineseCharactersMap.set(glyph, chineseCharacter);
     idx++;
 }
 for (const rawGlyphData of rawChineseCharactersDatas) {
-    const chineseCharacter = chineseCharactersMap.get(rawGlyphData.hanja);
+    const chineseCharacter = chineseCharactersMap.get(rawGlyphData.glyph);
     if (typeof chineseCharacter === "undefined")
         continue;
     const shapes = rawGlyphData.shapes;

@@ -4,7 +4,6 @@ export default class ChineseCharacter {
         this.glyph = options.glyph;
         this.index = options.index;
         this.strokes = options.strokes;
-        this.korName = options.korName;
         this._parents = [];
         this._shapes = [];
     }

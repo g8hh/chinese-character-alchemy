@@ -2,10 +2,9 @@ import ChineseCharacter from "../class/game/ChineseCharacter.js";
 import useRelativePath from "../util/useRelativePath.js";
 
 interface RawGlyphData {
-  hanja: string;
+  glyph: string;
   strokeCount: number;
   shapes: string[];
-  name: string;
 }
 
 const rawChineseCharactersDatas: RawGlyphData[] = JSON.parse(await (await fetch(useRelativePath("../../asset/data/datas.txt"))).text());
@@ -14,13 +13,12 @@ const chineseCharactersMap: Map<string, ChineseCharacter> = new Map();
 
 let idx = 0;
 for (const rawGlyphData of rawChineseCharactersDatas) {
-  const glyph = rawGlyphData.hanja;
+  const glyph = rawGlyphData.glyph;
 
   const chineseCharacter = new ChineseCharacter({
     index: idx,
     glyph,
-    strokes: rawGlyphData.strokeCount,
-    korName: rawGlyphData.name
+    strokes: rawGlyphData.strokeCount
   });
 
   chineseCharacters.push(chineseCharacter);
@@ -30,7 +28,7 @@ for (const rawGlyphData of rawChineseCharactersDatas) {
 }
 
 for (const rawGlyphData of rawChineseCharactersDatas) {
-  const chineseCharacter = chineseCharactersMap.get(rawGlyphData.hanja);
+  const chineseCharacter = chineseCharactersMap.get(rawGlyphData.glyph);
   if (typeof chineseCharacter === "undefined") continue;
 
   const shapes = rawGlyphData.shapes;

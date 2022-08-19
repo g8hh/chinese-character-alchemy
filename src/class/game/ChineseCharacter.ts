@@ -4,14 +4,12 @@ interface ChineseCharacterOptions {
   glyph: string;
   index: number;
   strokes: number;
-  korName: string;
 }
 
 export default class ChineseCharacter {
   readonly glyph: string;
   readonly index: number;
   readonly strokes: number;
-  readonly korName: string;
   private readonly _parents: ChineseCharacter[];
   private readonly _shapes: ChineseCharacter[];
 
@@ -19,7 +17,6 @@ export default class ChineseCharacter {
     this.glyph = options.glyph;
     this.index = options.index;
     this.strokes = options.strokes;
-    this.korName = options.korName;
     this._parents = [];
     this._shapes = [];
   }
