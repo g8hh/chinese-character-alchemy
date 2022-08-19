@@ -69,14 +69,16 @@ export default class GameField {
         const result = item.mergeWith(collisions);
         if (result === null)
             return;
-        const [crafted, merged] = result;
-        this.game.unlockItem(crafted.index);
+        const [craftedArr, merged] = result;
         const position = [...item.position];
         this.items = this.items.filter(item => !merged.includes(item));
-        const craftedItem = new GameFieldItem(crafted);
-        craftedItem.position[0] = position[0];
-        craftedItem.position[1] = position[1];
-        this.items.unshift(craftedItem);
+        for (const crafted of craftedArr) {
+            this.game.unlockItem(crafted.index);
+            const craftedItem = new GameFieldItem(crafted);
+            craftedItem.position[0] = position[0] + (Math.random() * 4 - 2);
+            craftedItem.position[1] = position[1] + (Math.random() * 4 - 2);
+            this.items.unshift(craftedItem);
+        }
     }
     drawShapeTree(root) {
         const field = this.field;

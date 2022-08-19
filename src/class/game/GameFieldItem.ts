@@ -33,15 +33,23 @@ export default class GameFieldItem {
     return isCollision;
   }
 
-  mergeWith(items: GameFieldItem[]): [crafted: ChineseCharacter, merged: GameFieldItem[]] | null {
+  mergeWith(items: GameFieldItem[]): [crafted: ChineseCharacter[], merged: GameFieldItem[]] | null {
     const parents = this.chineseCharacter.parents;
+    const crafted: ChineseCharacter[] = []; 
+    let totalMerged: GameFieldItem[] = [];
     for (const parent of parents) {
       const shapes = parent.shapes;
       const merged = [this, ...items.slice(0, Math.max(1, shapes.length-1))];
       const toCheck = merged.map(item => item.chineseCharacter);
       const canMake = shapes.every(shape => toCheck.includes(shape)) && toCheck.every(shape => shapes.includes(shape));
-      if (canMake) return [parent, merged];
+      if (canMake) {
+        crafted.push(parent);
+        totalMerged.push(...merged);
+        totalMerged = [...new Set(merged)];
+      }
     }
+
+    if (crafted.length > 0) return [crafted, totalMerged];
     return null;
   }
 }
