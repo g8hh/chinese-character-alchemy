@@ -1,4 +1,5 @@
 import ChineseCharacter from "../class/game/ChineseCharacter.js";
+import useRelativePath from "../util/useRelativePath.js";
 
 interface RawGlyphData {
   hanja: string;
@@ -7,7 +8,7 @@ interface RawGlyphData {
   name: string;
 }
 
-const rawChineseCharactersDatas: RawGlyphData[] = JSON.parse(await (await fetch("/asset/data/datas.txt")).text());
+const rawChineseCharactersDatas: RawGlyphData[] = JSON.parse(await (await fetch(useRelativePath("../../asset/data/datas.txt"))).text());
 const chineseCharacters: ChineseCharacter[] = [];
 const chineseCharactersMap: Map<string, ChineseCharacter> = new Map();
 
