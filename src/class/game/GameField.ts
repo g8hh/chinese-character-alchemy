@@ -102,12 +102,87 @@ export default class GameField {
     this.items.unshift(craftedItem);
   }
 
+  private drawShapeTree(root: ChineseCharacter) {
+    const field = this.field;
+    const tier = root.getTier();
+
+    type TreeRow = [chineseCharacter: ChineseCharacter | null, weight: number][];
+
+    field.strokeStyle = "#fff4";
+
+    let prevRow: TreeRow = [];
+    let row: TreeRow = [[root, 1]];
+    let nextRow: TreeRow = [];
+
+    for (let i = 0; i < tier; i++) {
+      let parentIdx = 0;
+      let parentWeightAcc = 0;
+
+      let weightAcc = 0;
+      for (const item of row) {
+        const [chineseCharacter, weight] = item;
+        if (chineseCharacter === null) {
+          weightAcc += weight;
+          nextRow.push([null, weight]);
+          continue;
+        }
+        const x = 10 + 80 * (weightAcc + weight / 2);
+        const y = -40 + i * 11;
+        field.fillText({
+          x, y,
+          text: chineseCharacter.glyph,
+          color: "#fff4",
+          font: {
+            fontFamily: "NanumGothic"
+          },
+          maxWidth: 2 * (0.85 - i/35)**i,
+          baseline: "middle",
+          textAlign: "center",
+        });
+
+        let parent = prevRow[parentIdx];
+        if (parent) {
+          while (
+            prevRow.length - 1 > parentIdx &&
+            parentWeightAcc + parent[1] <= weightAcc
+          ) {
+            parentWeightAcc += parent[1];
+            parentIdx++;
+            parent = prevRow[parentIdx];
+          }
+          if (parent) {
+            const parentX = 10 + 80 * (parentWeightAcc + parent[1] / 2);
+            const parentY = -40 + (i - 1) * 11;
+            field.drawLine(parentX, parentY + 3, x, y - 3);
+          }
+        }
+
+        weightAcc += weight;
+        const shapes = chineseCharacter.shapes;
+        if (shapes.length > 0) {
+          for (const shape of shapes) {
+            nextRow.push([shape, weight/shapes.length]);
+          }
+        } else {
+          nextRow.push([null, weight]);
+        }
+      }
+
+      prevRow = row;
+      row = nextRow;
+      nextRow = [];
+    }
+  }
+
   render() {
     const field = this.field;
     field.clear();
 
+    if (this.selectedItem) this.drawShapeTree(this.selectedItem.chineseCharacter);
+
     field.strokeStyle = "#fff";
     field.fillStyle = "#222";
+
     for (const item of [...this.items].reverse()) {
       const { position: [x, y], size } = item;
       field.fillRect(x - size/2, y - size/2, size, size);
