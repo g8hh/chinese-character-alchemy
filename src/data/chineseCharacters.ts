@@ -1,7 +1,7 @@
 import ChineseCharacter from "../class/game/ChineseCharacter.js";
 import useRelativePath from "../util/useRelativePath.js";
 
-interface RawGlyphData {
+export interface RawGlyphData {
   glyph: string;
   strokeCount: number;
   shapes: string[];
