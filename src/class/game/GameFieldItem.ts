@@ -37,7 +37,7 @@ export default class GameFieldItem {
     const parents = this.chineseCharacter.parents;
     for (const parent of parents) {
       const shapes = parent.shapes;
-      const merged = [this, ...items.slice(Math.max(0, shapes.length-1))];
+      const merged = [this, ...items.slice(0, Math.max(0, shapes.length-1))];
       const toCheck = merged.map(item => item.chineseCharacter);
       const canMake = shapes.every(shape => toCheck.includes(shape)) && toCheck.every(shape => shapes.includes(shape));
       if (canMake) return [parent, merged];
