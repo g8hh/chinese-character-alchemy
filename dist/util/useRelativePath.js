@@ -1,4 +1,4 @@
-import getFilepath from "./getFilePath.js";
+import getFilepath from "./getFilepath.js";
 export default function useRelativePath(relativePath) {
     const filePath = getFilepath(2);
     const filePaths = filePath.split("//")[1].split("/").slice(1);

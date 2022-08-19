@@ -1,4 +1,4 @@
-import getFilepath from "./getFilePath.js";
+import getFilepath from "./getFilepath.js";
 
 export default function useRelativePath(relativePath: string) {
   const filePath = getFilepath(2);
