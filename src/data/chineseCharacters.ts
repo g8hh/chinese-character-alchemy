@@ -7,7 +7,7 @@ interface RawGlyphData {
   name: string;
 }
 
-const rawChineseCharactersDatas: RawGlyphData[] = JSON.parse(await (await fetch("../asset/data/datas.txt")).text());
+const rawChineseCharactersDatas: RawGlyphData[] = JSON.parse(await (await fetch("/asset/data/datas.txt")).text());
 const chineseCharacters: ChineseCharacter[] = [];
 const chineseCharactersMap: Map<string, ChineseCharacter> = new Map();
 

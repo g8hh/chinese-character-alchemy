@@ -1,5 +1,5 @@
 import ChineseCharacter from "../class/game/ChineseCharacter.js";
-const rawChineseCharactersDatas = JSON.parse(await (await fetch("../asset/data/datas.txt")).text());
+const rawChineseCharactersDatas = JSON.parse(await (await fetch("/asset/data/datas.txt")).text());
 const chineseCharacters = [];
 const chineseCharactersMap = new Map();
 let idx = 0;
