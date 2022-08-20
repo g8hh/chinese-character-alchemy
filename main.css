@@ -207,4 +207,8 @@ body {
     border-left: unset;
     border-top: 0.2vw solid #fff;
   }
+
+  #list-wrapper {
+    grid-template-columns: repeat(10, 1fr);
+  }
 }
