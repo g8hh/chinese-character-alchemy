@@ -16,6 +16,7 @@ const game = new Game({
     canvasWrapper: document.getElementById("game-canvas-wrapper") as HTMLDivElement,
   }
 });
+console.log(game);
 
 let lastSave = Date.now();
 function tick() {

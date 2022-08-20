@@ -86,6 +86,45 @@ export default class GameField {
         this.checkMerge(this.selectedItem);
       }
     });
+    document.addEventListener("touchstart", (e) => {
+      const { pageX, pageY } = e.changedTouches[0];
+      this.lastPosition = [pageX, pageY];
+      
+      this.isMouseDown = true;
+      const { x, y } = this.field.globalToLocalAttr({
+        x: this.lastPosition[0],
+        y: this.lastPosition[1]
+      });
+      this.selectedItem = this.items.find(item => item.isPointInItem(x, y));
+    });
+    document.addEventListener("touchmove", (e) => {
+      const { pageX, pageY } = e.changedTouches[0];
+      let curPosition: [x: number, y: number] = [pageX, pageY];
+      
+      if (
+        this.isMouseDown &&
+        this.selectedItem
+      ) {
+        const { x: x1, y: y1 } = this.field.globalToLocalAttr({
+          x: this.lastPosition[0],
+          y: this.lastPosition[1]
+        });
+        const { x: x2, y: y2 } = this.field.globalToLocalAttr({
+          x: curPosition[0],
+          y: curPosition[1]
+        });
+        this.selectedItem.position[0] += x2 - x1;
+        this.selectedItem.position[1] += y2 - y1;
+      }
+
+      this.lastPosition = curPosition;
+    }, { passive: true });
+    document.addEventListener("touchend", () => {
+      this.isMouseDown = false;
+      if (this.selectedItem) {
+        this.checkMerge(this.selectedItem);
+      }
+    });
     document.addEventListener("blur", () => {
       this.isMouseDown = false;
     });

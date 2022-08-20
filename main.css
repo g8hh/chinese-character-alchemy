@@ -52,13 +52,14 @@ body {
   width: 70vw;
   height: 100vh;
 }
-
 #list {
   width: 29.8vw;
   height: 100vh;
 
   border-left: 0.2vw solid #fff;
 }
+
+
 #list-title {
   --progress: 0%;
 
@@ -187,4 +188,23 @@ body {
   background-color: #333;
   border-radius: 50%;
   box-shadow: 0 0 0.5vmin #888;
+}
+
+@media screen and (orientation: portrait) {
+  body {
+    flex-direction: column;
+  }
+
+  #game-canvas-wrapper {
+    width: 100vw;
+    height: 60vh;
+  }
+
+  #list {
+    width: 100vw;
+    height: 40vh;
+  
+    border-left: unset;
+    border-top: 0.2vw solid #fff;
+  }
 }
