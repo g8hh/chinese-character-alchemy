@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+SC&display=swap');
+@font-face {
+  font-family: "NanumGothic";
+  src: url("./asset/fonts/NanumGothic/NanumGothic-Regular.ttf");
+}
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("./asset/fonts/NotoSansSC/NotoSansSC-Medium.otf");
+}
 
 * {
   margin: 0;
