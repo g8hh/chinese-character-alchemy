@@ -68,8 +68,23 @@ export default class GameField {
       });
       this.selectedItem = this.items.find(item => item.isPointInItem(x, y));
       if (this.selectedItem) {
-        if (mouseButton.rightClick) {
+        const shapes = this.selectedItem.chineseCharacter.shapes;
+        if (
+          shapes.length > 0 &&
+          mouseButton.wheelClick
+        ) {
+          const [itemX, itemY] = this.selectedItem.position;
           this.items = this.items.filter(item => item !== this.selectedItem);
+          for (const shape of shapes) {
+            const item = new GameFieldItem(shape);
+            item.position[0] = itemX + Math.random() * 5 - 2.5;
+            item.position[1] = itemY + Math.random() * 5 - 2.5;
+            this.items.unshift(item);
+          }
+          this.selectedItem = undefined;
+        } else if (mouseButton.rightClick) {
+          this.items = this.items.filter(item => item !== this.selectedItem);
+          this.selectedItem = undefined;
         } else {
           this.items = this.items.filter(item => item !== this.selectedItem);
           this.items.unshift(this.selectedItem);
