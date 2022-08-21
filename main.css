@@ -56,6 +56,9 @@ body {
   width: 70vw;
   height: 100vh;
 }
+#game-canvas {
+  position: absolute;
+}
 #list {
   width: 29.8vw;
   height: 100vh;
