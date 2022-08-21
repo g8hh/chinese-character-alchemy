@@ -17,6 +17,10 @@ export default class Game {
             if (this.list.unlocked.includes(idx))
                 continue;
             this.list.unlockItem(idx);
+            const unlocked = this.list.chineseCharacters[idx];
+            for (let i = 0; i < 5; i++) {
+                this.field.addItem(unlocked);
+            }
         }
     }
     unlockItem(idx) {
