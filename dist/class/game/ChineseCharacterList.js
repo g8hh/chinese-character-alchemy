@@ -94,6 +94,9 @@ export default class ChineseCharacterList {
             itemEl.scrollIntoView({
                 behavior: "smooth"
             });
+            window.scrollTo({
+                top: 0
+            });
         }
     }
 }
