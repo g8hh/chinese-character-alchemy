@@ -91,12 +91,13 @@ export default class ChineseCharacterList {
     scrollToItem(idx) {
         const itemEl = this.listItemEls[idx]?.wrapper;
         if (itemEl) {
+            console.log(idx, itemEl);
             itemEl.scrollIntoView({
                 behavior: "smooth"
             });
-            window.scrollTo({
-                top: 0
-            });
+            // window.scrollTo({
+            //   top: 0
+            // });
         }
     }
 }
