@@ -88,4 +88,12 @@ export default class ChineseCharacterList {
         const progress = parents.reduce((a, b) => a + (this.unlocked.includes(b.index) ? 1 : 0), 0) / parents.length;
         return progress;
     }
+    scrollToItem(idx) {
+        const itemEl = this.listItemEls[idx]?.wrapper;
+        if (itemEl) {
+            itemEl.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    }
 }

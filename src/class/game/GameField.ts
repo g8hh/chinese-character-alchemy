@@ -71,6 +71,7 @@ export default class GameField {
         } else {
           this.items = this.items.filter(item => item !== this.selectedItem);
           this.items.unshift(this.selectedItem);
+          this.game.list.scrollToItem(this.selectedItem.chineseCharacter.index);
         }
       }
     });
@@ -96,6 +97,11 @@ export default class GameField {
         y: this.lastPosition[1]
       });
       this.selectedItem = this.items.find(item => item.isPointInItem(x, y));
+      if (this.selectedItem) {
+        this.items = this.items.filter(item => item !== this.selectedItem);
+        this.items.unshift(this.selectedItem);
+        this.game.list.scrollToItem(this.selectedItem.chineseCharacter.index);
+      }
     });
     document.addEventListener("touchmove", (e) => {
       const { pageX, pageY } = e.changedTouches[0];
