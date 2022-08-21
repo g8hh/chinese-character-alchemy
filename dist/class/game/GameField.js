@@ -1,6 +1,7 @@
 import Field from "../util/Field.js";
 import GameFieldItem from "./GameFieldItem.js";
 import parseMouseButtons from "../../util/parseMouseButtons.js";
+const fontFamilys = ["NanumGothic", "NotoSansSC"];
 export default class GameField {
     constructor(game, options) {
         this.game = game;
@@ -155,7 +156,7 @@ export default class GameField {
                     text: chineseCharacter.glyph,
                     color: "#fff4",
                     font: {
-                        fontFamily: "NanumGothic"
+                        fontFamilys
                     },
                     maxWidth: 2 * (0.85 - i / 35) ** i,
                     baseline: "middle",
@@ -205,7 +206,7 @@ export default class GameField {
                 text,
                 color: "#fff3",
                 font: {
-                    fontFamily: "NanumGothic"
+                    fontFamilys
                 },
                 maxSize: fontSize,
                 baseline: "middle",
@@ -229,7 +230,7 @@ export default class GameField {
                 text: item.chineseCharacter.glyph,
                 color: "#fff",
                 font: {
-                    fontFamily: "NanumGothic"
+                    fontFamilys
                 },
                 maxWidth: size * 0.2,
                 baseline: "middle",

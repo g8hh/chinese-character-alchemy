@@ -9,6 +9,8 @@ export interface GameFieldOptions {
   canvas: HTMLCanvasElement;
 }
 
+const fontFamilys = ["NanumGothic", "NotoSansSC"];
+
 export default class GameField {
   private readonly game: Game;
   private items: GameFieldItem[];
@@ -189,7 +191,7 @@ export default class GameField {
           text: chineseCharacter.glyph,
           color: "#fff4",
           font: {
-            fontFamily: "NanumGothic"
+            fontFamilys
           },
           maxWidth: 2 * (0.85 - i/35)**i,
           baseline: "middle",
@@ -245,7 +247,7 @@ export default class GameField {
         text,
         color: "#fff3",
         font: {
-          fontFamily: "NanumGothic"
+          fontFamilys
         },
         maxSize: fontSize,
         baseline: "middle",
@@ -272,7 +274,7 @@ export default class GameField {
         text: item.chineseCharacter.glyph,
         color: "#fff",
         font: {
-          fontFamily: "NanumGothic"
+          fontFamilys
         },
         maxWidth: size * 0.2,
         baseline: "middle",

@@ -19,7 +19,7 @@ interface FillTextOptions {
   color: string;
   font: {
     bold?: boolean;
-    fontFamily: string
+    fontFamilys: string[]
   }
   maxSize?: number;
   maxWidth?: number;
@@ -249,7 +249,7 @@ export default class Field {
   fillText(options: FillTextOptions) {
     const ctx = this.ctx;
     const {
-      text, font: { bold, fontFamily }, color, x, y,
+      text, font: { bold, fontFamilys }, color, x, y,
       maxSize=Infinity, maxWidth=Infinity, baseline="alphabetic", textAlign="left"
     } = options;
 
@@ -263,7 +263,7 @@ export default class Field {
     ctx.fillStyle = color;
     ctx.textBaseline = baseline;
     ctx.textAlign = textAlign;
-    ctx.font = (bold ? "bold " : "") + `${fontSize}px '${fontFamily}'`;
+    ctx.font = (bold ? "bold " : "") + `${fontSize}px ${fontFamilys.map(v => `"${v}"`).join(", ")}`;
     ctx.fillText(text, globalAttr.x, globalAttr.y);
 
     ctx.restore();
