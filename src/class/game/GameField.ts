@@ -59,7 +59,7 @@ export default class GameField {
 
       this.lastPosition = curPosition;
     });
-    document.addEventListener("mousedown", (e) => {
+    this.canvasEl.addEventListener("mousedown", (e) => {
       const mouseButton = parseMouseButtons(e, "button");
       this.isMouseDown = true;
       const { x, y } = this.field.globalToLocalAttr({
@@ -90,6 +90,15 @@ export default class GameField {
           this.items.unshift(this.selectedItem);
           this.game.list.scrollToItem(this.selectedItem.chineseCharacter.index);
         }
+      }
+    });
+    this.canvasEl.addEventListener("dblclick", () => {
+      if (this.selectedItem) {
+        const [itemX, itemY] = this.selectedItem.position;
+        const item = new GameFieldItem(this.selectedItem.chineseCharacter);
+        item.position[0] = itemX + Math.random() * 5 - 2.5;
+        item.position[1] = itemY + Math.random() * 5 - 2.5;
+        this.items.unshift(item);
       }
     });
     this.canvasEl.addEventListener("mouseout", () => {
