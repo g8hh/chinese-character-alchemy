@@ -24,6 +24,7 @@ export default class Game {
     const unlockCount = Math.ceil(Math.max(0, unlockedCount - 10)/5) + 10;
     for (let i = 0; i < unlockCount; i++) {
       const toUnlock = bases[i];
+      if (!toUnlock) continue;
       const idx = toUnlock.index;
       if (this.list.unlocked.includes(idx)) continue;
       this.list.unlockItem(idx);
