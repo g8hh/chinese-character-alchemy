@@ -1,6 +1,10 @@
 @font-face {
   font-family: "NanumGothic";
-  src: url("./asset/fonts/NanumGothic-Regular.ttf");
+  src: url("./asset/fonts/NanumGothic/NanumGothic-Regular.ttf");
+}
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("./asset/fonts/NotoSansSC/NotoSansSC-Medium.otf");
 }
 
 * {
@@ -8,7 +12,7 @@
   padding: 0;
 
   color: #fff;
-  font-family: "NanumGothic", sans-serif;
+  font-family: "NanumGothic", "NotoSansSC", sans-serif;
   font-size: 1.6vmin;
 
   user-select: none;
