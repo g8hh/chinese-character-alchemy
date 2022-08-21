@@ -183,7 +183,7 @@ export default class GameField {
           continue;
         }
         const x = 10 + 80 * (weightAcc + weight / 2);
-        const y = -40 + i * 11;
+        const y = -35 + i * 11;
         field.fillText({
           x, y,
           text: chineseCharacter.glyph,
@@ -208,7 +208,7 @@ export default class GameField {
           }
           if (parent) {
             const parentX = 10 + 80 * (parentWeightAcc + parent[1] / 2);
-            const parentY = -40 + (i - 1) * 11;
+            const parentY = -35 + (i - 1) * 11;
             field.drawLine(parentX, parentY + 3, x, y - 3);
           }
         }
@@ -227,6 +227,30 @@ export default class GameField {
       prevRow = row;
       row = nextRow;
       nextRow = [];
+    }
+
+    // Draw parents
+    const parents = root.parents;
+    const unlocked = this.game.list.unlocked;
+    const size = Math.max(1, Math.ceil(Math.sqrt(parents.length)));
+    const fontSize = 25 / Math.max(4, size);
+    for (let i = 0; i < parents.length; i++) {
+      const chineseCharacter = parents[i];
+      const text = unlocked.includes(chineseCharacter.index) ?  chineseCharacter.glyph : "？";
+      
+      const x = 75 + (25 * (i%size) / size);
+      const y = -40 + (25 * Math.floor(i/size) / size);
+      field.fillText({
+        x, y,
+        text,
+        color: "#fff3",
+        font: {
+          fontFamily: "NanumGothic"
+        },
+        maxSize: fontSize,
+        baseline: "middle",
+        textAlign: "center",
+      });
     }
   }
 
