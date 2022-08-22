@@ -27,6 +27,7 @@ function tick() {
     const time = Date.now();
     if (time - lastSave > 5000) {
         localStorage.setItem(saveKey, JSON.stringify(game.getSavedata()));
+        lastSave = time;
     }
     game.render();
     requestAnimationFrame(tick);

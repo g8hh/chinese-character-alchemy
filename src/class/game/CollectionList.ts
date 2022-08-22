@@ -17,12 +17,14 @@ export default class CollectionList {
   readonly collections: [collection: Collection, els: CollectionEls][];
   readonly collectionListEl: HTMLElement;
   readonly collectionDisplayEl: HTMLElement;
+  private openedCollectionIdx: number
   
   constructor(game: Game, options: CollectionListOptions) {
     this.game = game;
     this.collections = [];
     this.collectionListEl = options.collectionListEl;
     this.collectionDisplayEl = options.collectionDisplayEl;
+    this.openedCollectionIdx = -1;
   }
 
   addCollection(collection: Collection) {
@@ -42,6 +44,7 @@ export default class CollectionList {
 
     const progressEl = document.createElement("div");
     progressEl.classList.add("collection-list__item__progress");
+    nameEl.appendChild(progressEl);
 
     this.collections.push([
       collection,
@@ -55,7 +58,9 @@ export default class CollectionList {
     this.updateCollectionList();
   }
 
-  openCollection(idx: number) {
+  openCollection(idx?: number) {
+    if (typeof idx === "undefined") idx = this.openedCollectionIdx;
+
     const collection = this.collections[idx]?.[0];
     if (typeof collection === "undefined") return;
 
@@ -65,8 +70,8 @@ export default class CollectionList {
     let hintLeft = true;
 
     this.collectionDisplayEl.innerHTML = "";
-    this.collectionDisplayEl.style.setProperty("--cols", width.toString());
-    this.collectionDisplayEl.style.setProperty("--rows", height.toString());
+    this.collectionDisplayEl.style.setProperty("--rows", width.toString());
+    this.collectionDisplayEl.style.setProperty("--cols", height.toString());
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const isUnlocked = unlocked[y][x];
@@ -79,8 +84,8 @@ export default class CollectionList {
         const itemEl = document.createElement("span");
         itemEl.classList.add("collection-display__item");
         itemEl.setAttribute("inner-info", "#" + chineseCharacter.index);
-        itemEl.style.gridColumn = (x + 1).toString();
-        itemEl.style.gridRow = (y + 1).toString();
+        itemEl.style.gridColumn = (x + 1).toString() + " / " + (x + 1).toString();
+        itemEl.style.gridRow = (y + 1).toString() + " / " + (y + 1).toString();
         this.collectionDisplayEl.appendChild(itemEl);
 
         if (isUnlocked) {
@@ -98,6 +103,8 @@ export default class CollectionList {
         }
       }
     }
+
+    this.openedCollectionIdx = idx;
   }
 
   updateCollectionList() {

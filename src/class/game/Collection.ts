@@ -27,7 +27,7 @@ export default class Collection {
 
   getProgress(list: ChineseCharacterList): [cur: number, goal: number] {
     const unlockedList = this.getUnlocked(list);
-    const filtered = unlockedList.filter(v => v !== null) as boolean[][];
+    const filtered = unlockedList.flat().filter(v => v !== null) as boolean[];
     return [filtered.reduce((a, b) => a + (b ? 1 : 0), 0), filtered.length];
   }
 }

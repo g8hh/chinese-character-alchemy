@@ -42,6 +42,9 @@ export default class Game {
   unlockItem(idx: number) {
     this.list.unlockItem(idx);
     this.unlockBases();
+
+    this.collectionList.updateCollectionList();
+    this.collectionList.openCollection();
   }
 
   getSavedata() {

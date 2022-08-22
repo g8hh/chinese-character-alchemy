@@ -12,7 +12,7 @@ export default class Collection {
     }
     getProgress(list) {
         const unlockedList = this.getUnlocked(list);
-        const filtered = unlockedList.filter(v => v !== null);
+        const filtered = unlockedList.flat().filter(v => v !== null);
         return [filtered.reduce((a, b) => a + (b ? 1 : 0), 0), filtered.length];
     }
 }
