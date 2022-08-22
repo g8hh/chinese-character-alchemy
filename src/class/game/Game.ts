@@ -1,18 +1,22 @@
 import ChineseCharacterList, { ChineseCharacterListOptions } from "./ChineseCharacterList.js";
 import GameField, { GameFieldOptions } from "./GameField.js";
+import CollectionList, { CollectionListOptions } from "./CollectionList.js";
 
 interface GameOptions {
   chineseCharacterList: ChineseCharacterListOptions;
   gameField: GameFieldOptions;
+  collectionList: CollectionListOptions;
 }
 
 export default class Game {
   readonly list: ChineseCharacterList;
   readonly field: GameField;
+  readonly collectionList: CollectionList;
 
   constructor(options: GameOptions) {
     this.list = new ChineseCharacterList(this, options.chineseCharacterList);
     this.field = new GameField(this, options.gameField);
+    this.collectionList = new CollectionList(this, options.collectionList);
 
     this.unlockBases();
   }

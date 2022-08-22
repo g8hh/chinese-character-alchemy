@@ -1,9 +1,11 @@
 import ChineseCharacterList from "./ChineseCharacterList.js";
 import GameField from "./GameField.js";
+import CollectionList from "./CollectionList.js";
 export default class Game {
     constructor(options) {
         this.list = new ChineseCharacterList(this, options.chineseCharacterList);
         this.field = new GameField(this, options.gameField);
+        this.collectionList = new CollectionList(this, options.collectionList);
         this.unlockBases();
     }
     unlockBases() {
