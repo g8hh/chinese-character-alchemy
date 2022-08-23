@@ -41,6 +41,8 @@ export default class ChineseCharacterList {
       const chineseCharacter = this.chineseCharacters[i];
       const progress = this.getProgress(i);
 
+      const unlocked = this.unlocked.includes(i);
+
       const itemEl = document.createElement("div");
       itemEl.classList.add("list-item");
       if (!this.unlocked.includes(i)) itemEl.classList.add("hidden");
@@ -53,7 +55,7 @@ export default class ChineseCharacterList {
       
       const glyphEl = document.createElement("div");
       glyphEl.classList.add("list-item__glyph");
-      glyphEl.innerText = chineseCharacter.glyph;
+      glyphEl.innerText = unlocked ? chineseCharacter.glyph : "？";
       itemEl.appendChild(glyphEl);
       
       const tierEl = document.createElement("div");
@@ -91,6 +93,7 @@ export default class ChineseCharacterList {
     els.wrapper.classList.remove("hidden");
 
     const chineseCharacter = this.chineseCharacters[idx];
+    els.glyph.innerText = chineseCharacter.glyph;
     for (const shape of chineseCharacter.shapes) {
       this.updateEl(shape.index);
     }
