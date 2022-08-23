@@ -53,7 +53,7 @@ export default class CollectionList {
                     continue;
                 const itemEl = document.createElement("span");
                 itemEl.classList.add("collection-display__item");
-                itemEl.setAttribute("inner-info", "#" + chineseCharacter.index);
+                itemEl.setAttribute("inner-info", "#" + (chineseCharacter.index + 1));
                 itemEl.style.gridColumn = (x + 1).toString() + " / " + (x + 1).toString();
                 itemEl.style.gridRow = (y + 1).toString() + " / " + (y + 1).toString();
                 this.collectionDisplayEl.appendChild(itemEl);
