@@ -79,6 +79,17 @@ export default class CollectionList {
         if (
           isUnlocked === null ||
           chineseCharacter === null
+        ) {
+          if (x === 0) {
+            const holderEl = document.createElement("span");
+            holderEl.classList.add("collection-display__item");
+            holderEl.style.gridColumn = (x + 1).toString() + " / " + (x + 1).toString();
+            holderEl.style.gridRow = (y + 1).toString() + " / " + (y + 1).toString();
+            holderEl.style.opacity = "0";
+            this.collectionDisplayEl.appendChild(holderEl);
+          }
+          continue;
+        }
 
         const itemEl = document.createElement("span");
         itemEl.classList.add("collection-display__item");
