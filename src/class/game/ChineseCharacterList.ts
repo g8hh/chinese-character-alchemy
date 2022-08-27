@@ -48,7 +48,7 @@ export default class ChineseCharacterList {
       if (!this.unlocked.includes(i)) itemEl.classList.add("hidden");
       itemEl.classList.add("tier" + chineseCharacter.getTier());
       itemEl.addEventListener("click", () => {
-        this.clickItem(i);
+        this.spawnItem(i);
       });
       if (progress === 1) itemEl.classList.add("completed");
       this.listWrapperEl.appendChild(itemEl);
@@ -117,7 +117,7 @@ export default class ChineseCharacterList {
     if (progress === 1) els.wrapper.classList.add("completed");
   }
 
-  clickItem(idx: number) {
+  spawnItem(idx: number) {
     if (!this.unlocked.includes(idx)) return;
     this.game.field.addItem(this.chineseCharacters[idx]);
   }

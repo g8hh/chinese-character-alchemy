@@ -79,13 +79,15 @@ export default class CollectionList {
         if (
           isUnlocked === null ||
           chineseCharacter === null
-        ) continue;
 
         const itemEl = document.createElement("span");
         itemEl.classList.add("collection-display__item");
         itemEl.setAttribute("inner-info", "#" + (chineseCharacter.index + 1));
         itemEl.style.gridColumn = (x + 1).toString() + " / " + (x + 1).toString();
         itemEl.style.gridRow = (y + 1).toString() + " / " + (y + 1).toString();
+        itemEl.addEventListener("click", () => {
+          this.game.list.spawnItem(chineseCharacter.index);
+        });
         this.collectionDisplayEl.appendChild(itemEl);
 
         if (isUnlocked) {

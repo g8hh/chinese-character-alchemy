@@ -359,6 +359,9 @@ body {
 
   animation: absoluteAppearFromBottom 0.3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
+#collection-display > .collection-display__item.unlocked {
+  cursor: pointer;
+}
 #collection-display > .collection-display__item.hint {
   color: #fff4;
 }
