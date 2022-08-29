@@ -75,10 +75,15 @@ export default class GameField {
         ) {
           const [itemX, itemY] = this.selectedItem.position;
           this.items = this.items.filter(item => item !== this.selectedItem);
-          for (const shape of shapes) {
+          const tier = this.selectedItem.chineseCharacter.getTier();
+          const radius = (2.5 + 0.2 * tier) * shapes.length;
+          console.log(tier, tier%2);
+          for (let i = 0; i < shapes.length; i++) {
+            const shape = shapes[i];
+            const t = 2 * Math.PI * (i / shapes.length + (tier%2 === 0 ? 0 : 0.25));
             const item = new GameFieldItem(shape);
-            item.position[0] = itemX + Math.random() * 5 - 2.5;
-            item.position[1] = itemY + Math.random() * 5 - 2.5;
+            item.position[0] = itemX + Math.sin(t) * (radius / 2);
+            item.position[1] = itemY + Math.cos(t) * (radius / 2);
             this.items.unshift(item);
           }
           this.selectedItem = undefined;
