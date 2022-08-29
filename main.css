@@ -321,6 +321,16 @@ body {
   grid-template-columns: repeat(var(--cols), calc(var(--cell-size) + var(--cell-margin) * 2));
   grid-template-columns: repeat(var(--rows), calc(var(--cell-size) + var(--cell-margin) * 2));
 }
+#collection-display__placeholder {
+  padding-top: 5vh;
+  padding-left: 3vw;
+  width: 67vw;
+  
+  font-size: 3vh;
+  color: #fff8;
+  font-weight: bold;
+  white-space: initial;
+}
 
 #collection-display > .collection-display__item {
   position: relative;
