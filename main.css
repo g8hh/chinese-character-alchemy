@@ -1,0 +1,380 @@
+@font-face {
+  font-family: "NanumGothic";
+  src: url("./asset/fonts/NanumGothic/NanumGothic-Regular.ttf");
+}
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("./asset/fonts/NotoSansSC/NotoSansSC-Medium.otf");
+}
+
+@keyframes absoluteAppearFromBottom {
+  from {
+    top: 100%;
+  }
+  to {
+    top: 0;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  color: #fff;
+  font-family: "NanumGothic", "NotoSansSC", sans-serif;
+  font-size: 1.6vmin;
+
+  user-select: none;
+}
+
+*::-webkit-scrollbar {
+  width: 0.6vmax;
+  height: 0.6vmax;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #666;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+*[hover-info]:hover::before {
+  position: absolute;
+  bottom: 100%;
+  right: 100%;
+
+  padding: 0.5vmin;
+
+  content: attr(hover-info);
+
+  background-color: #0008;
+  color: #fff;
+  font-weight: normal;
+  text-shadow: none;
+  font-size: 1.6vmin;
+  white-space: pre;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  display: flex;
+
+  background-color: #191919;
+
+  overflow: hidden;
+}
+
+#game-canvas-wrapper {
+  width: 70vw;
+  height: 100vh;
+}
+#game-canvas {
+  position: absolute;
+}
+#list {
+  width: 29.8vw;
+  height: 100vh;
+
+  border-left: 0.2vw solid #fff;
+
+  overflow-y: auto;
+}
+
+
+#list-title {
+  --progress: 0%;
+
+  height: 6vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  font-size: 2em;
+  font-weight: bold;
+
+  background: linear-gradient(
+    90deg,
+    #585125 var(--progress),
+    #0000 var(--progress)
+  );
+}
+#list-wrapper {
+  max-height: 94vh;
+
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(5, 1fr);
+
+  overflow-y: scroll;
+}
+
+#list-wrapper > .list-item {
+  position: relative;
+  margin: 1vh 0;
+
+  width: 5vw;
+  height: 5vw;
+
+  background-color: #222;
+  box-shadow: 0 0 0.4vmin #000;
+
+  transition: filter cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+  cursor: pointer;
+}
+#list-wrapper > .list-item.hidden {
+  display: none;
+}
+#list-wrapper > .list-item.completed {
+  background-color: #585125;
+  order: 999999;
+}
+#list-wrapper > .list-item:hover {
+  filter: invert(1);
+}
+#list-wrapper > .list-item > div {
+  position: absolute;
+}
+#list-wrapper > .list-item > .list-item__glyph {
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+  user-select: all;
+  font-size: 2em;
+}
+#list-wrapper > .list-item > .list-item__tier {
+  bottom: 4%;
+  right: 4%;
+
+  font-size: 0.7em;
+}
+#list-wrapper > .list-item > .list-item__idx {
+  top: 4%;
+  left: 4%;
+
+  font-size: 0.7em;
+}
+#list-wrapper > .list-item > .list-item__idx::before {
+  content: "#";
+  color: #888;
+}
+#list-wrapper > .list-item > .list-item__progress {
+  --progress: 0%;
+
+  bottom: 0%;
+  left: 0%;
+
+  width: 100%;
+  height: 5%;
+
+  background: linear-gradient(
+    90deg,
+    #585125 var(--progress),
+    #0000 var(--progress)
+  );
+}
+
+#info {
+  position: absolute;
+  bottom: 2vmin;
+  right: 2vmin;
+
+  width: 3vmin;
+  height: 3vmin;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.4em;
+
+  background-color: #333;
+  border-radius: 50%;
+  box-shadow: 0 0 0.5vmin #888;
+}
+
+#collection-toggle {
+  position: absolute;
+  top: 2vmin;
+  right: 2vmin;
+
+  width: 3vmin;
+  height: 3vmin;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.4em;
+
+  background-color: #333;
+  border-radius: 50%;
+  box-shadow: 0 0 0.5vmin #888;
+
+  cursor: pointer;
+  z-index: 10;
+  transition: filter 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+#collection-toggle:hover {
+  filter: invert(1);
+}
+
+@media screen and (orientation: portrait) {
+  body {
+    flex-direction: column;
+  }
+
+  #game-canvas-wrapper {
+    width: 100vw;
+    height: 60vh;
+  }
+
+  #list {
+    width: 100vw;
+    height: 40vh;
+  
+    border-left: unset;
+    border-top: 0.2vw solid #fff;
+  }
+
+  #list-wrapper {
+    grid-template-columns: repeat(10, 1fr);
+  }
+}
+
+#collections {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: #000a;
+
+  z-index: 5;
+}
+#collections > div {
+  background-color: #8883;
+  box-shadow: 0 0 1vmin #8883;
+}
+#collection-list {
+  position: absolute;
+  left: 5vw;
+  top: 5vh;
+
+  padding: 2vh 0;
+
+  width: 15vw;
+  height: 86vh;
+}
+
+#collection-list > .collection-list__item {
+  margin: 1vh auto;
+  padding: 0 1%;
+
+  width: 80%;
+  height: 4vh;
+
+  background-color: #111;
+  border: 0.1vmin solid #fff;
+
+  cursor: pointer;
+  transition: filter 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+#collection-list > .collection-list__item > * {
+  white-space: nowrap;
+}
+#collection-list > .collection-list__item-item.completed {
+  background-color: #585125;
+}
+#collection-list > .collection-list__item:hover {
+  filter: invert(1);
+}
+
+#collection-display-wrapper {
+  position: absolute;
+  left: 25vw;
+  top: 5vh;
+
+  width: 70vw;
+  height: 90vh;
+
+  overflow-x: auto;
+  overflow-y: auto;
+}
+#collection-display {
+  --cols: 5;
+  --rows: 5;
+  --cell-size: 5vmin;
+  --cell-margin: 0.6vmin;
+
+  display: grid;
+  grid-template-columns: repeat(var(--cols), calc(var(--cell-size) + var(--cell-margin) * 2));
+  grid-template-columns: repeat(var(--rows), calc(var(--cell-size) + var(--cell-margin) * 2));
+}
+#collection-display__placeholder {
+  padding-top: 5vh;
+  padding-left: 3vw;
+  width: 67vw;
+  
+  font-size: 3vh;
+  color: #fff8;
+  font-weight: bold;
+  white-space: initial;
+}
+
+#collection-display > .collection-display__item {
+  position: relative;
+
+  margin: var(--cell-margin);
+
+  width: var(--cell-size);
+  height: var(--cell-size);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2em;
+  
+  background-color: #151515;
+  border-radius: 30%;
+  box-shadow: 0 0 0.5vmin #000;
+
+  overflow: hidden;
+}
+#collection-display > .collection-display__item[inner-info]:hover::after {
+  position: absolute;
+  
+  width: var(--cell-size);
+  height: var(--cell-size);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  backdrop-filter: blur(0.2vmin);
+  font-size: 0.4em;
+
+  content: attr(inner-info);
+
+  animation: absoluteAppearFromBottom 0.3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+#collection-display > .collection-display__item.unlocked {
+  cursor: pointer;
+}
+#collection-display > .collection-display__item.hint {
+  color: #fff4;
+}
+#collection-display > .collection-display__item.locked {
+  color: #fff2;
+}
