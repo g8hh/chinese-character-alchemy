@@ -40,7 +40,7 @@ export default class CollectionList {
             return;
         const unlocked = collection.getUnlocked(this.game.list);
         const [width, height] = array2D.measure(collection.items);
-        let hintLeft = true;
+        let hintLeft = collection.hintCount;
         this.collectionDisplayEl.innerHTML = "";
         this.collectionDisplayEl.style.setProperty("--rows", width.toString());
         this.collectionDisplayEl.style.setProperty("--cols", height.toString());
@@ -74,10 +74,10 @@ export default class CollectionList {
                     itemEl.classList.add("unlocked");
                 }
                 else {
-                    if (hintLeft) {
+                    if (hintLeft > 0) {
                         itemEl.innerText = chineseCharacter.glyph;
                         itemEl.classList.add("hint");
-                        hintLeft = false;
+                        hintLeft--;
                     }
                     else {
                         itemEl.innerText = "？";

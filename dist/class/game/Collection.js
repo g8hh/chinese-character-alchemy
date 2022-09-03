@@ -3,6 +3,7 @@ export default class Collection {
     constructor(options) {
         this.name = options.name;
         this.items = options.items;
+        this.hintCount = options.hintCount ?? 1;
     }
     getUnlocked(list) {
         const unlocked = list.unlocked;
