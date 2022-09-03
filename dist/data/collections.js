@@ -8,6 +8,7 @@ function itemsConverter(items) {
 }
 const radical1 = new Collection({
     name: "Radical 1",
+    hintCount: Infinity,
     items: itemsConverter([
         ["一", "丨", "丶", "丿", "乙", "亅", "二", "亠", "人", "儿", "入", "八"],
         ["冂", "冖", "冫", "几", "凵", "刀", "力", "勹", "匕", "匚", "匸", "十"],
@@ -31,6 +32,7 @@ const radical1 = new Collection({
 });
 const radical2 = new Collection({
     name: "Radical 2",
+    hintCount: Infinity,
     items: itemsConverter([
         ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "亻", "  ", "  ", "  "],
         ["  ", "  ", "  ", "  ", "  ", "刂", "  ", "  ", "  ", "  ", "  ", "  "],
@@ -54,6 +56,7 @@ const radical2 = new Collection({
 });
 const number = new Collection({
     name: "Number",
+    hintCount: 3,
     items: itemsConverter([
         ["一", "二", "三", "四", "五", "六", "七", "八", "九", "  ", "  ", "  ", "  ", "  ", "  "],
         ["壹", "貳", "參", "肆", "伍", "陸", "柒", "捌", "玖", "  ", "  ", "  ", "  ", "  ", "  "],
@@ -71,6 +74,7 @@ const number = new Collection({
 });
 const rainbow = new Collection({
     name: "Rainbow",
+    hintCount: 2,
     items: itemsConverter([
         ["  ", "  ", "  ", "虹", "  ", "  ", "  "],
         ["  ", "  ", "  ", "  ", "  ", "  ", "  "],
@@ -80,6 +84,7 @@ const rainbow = new Collection({
 });
 const janggi = new Collection({
     name: "Janggi",
+    hintCount: 5,
     items: itemsConverter([
         ["車", "象", "馬", "士", "  ", "士", "馬", "象", "車"],
         ["  ", "  ", "  ", "  ", "漢", "  ", "  ", "  ", "  "],
@@ -103,6 +108,7 @@ const tree = new Collection({
 const birdCharacters = chineseCharacters.filter(c => c.glyph === "鳥" || c.shapes.some(c => c.glyph === "鳥")).map(c => c.glyph);
 const bird = new Collection({
     name: "Bird",
+    hintCount: 3,
     items: itemsConverter(array2D.create(9, 9, (x, y) => {
         const idx = x + y * 9;
         return birdCharacters[idx] ?? null;
@@ -110,6 +116,7 @@ const bird = new Collection({
 });
 const elements = new Collection({
     name: "Elements",
+    hintCount: 10,
     items: itemsConverter([
         ["氫", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "氦"],
         ["鋰", "鈹", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "硼", "碳", "氮", "氧", "氟", "氖"],
@@ -132,6 +139,7 @@ const tierCollections = Array.from({ length: 8 }, (_, i) => {
     const size = Math.ceil(Math.sqrt(collectionItems.length));
     return new Collection({
         name: "Tier " + tier,
+        hintCount: tier === 1 ? Infinity : 8 - tier,
         items: itemsConverter(array2D.create(size, size, (x, y) => {
             const idx = x + y * size;
             return collectionItemsCharacters[idx] ?? null;
