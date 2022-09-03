@@ -378,3 +378,39 @@ body {
 #collection-display > .collection-display__item.locked {
   color: #fff2;
 }
+
+#gold-toggle {
+  position: absolute;
+  bottom: 2vmin;
+  right: 7vmin;
+
+  width: 3vmin;
+  height: 3vmin;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.4em;
+
+  background-color: #585125;
+  border-radius: 50%;
+  box-shadow: 0 0 0.5vmin #888;
+
+  cursor: pointer;
+  transition:
+    color 0.6s cubic-bezier(0.075, 0.82, 0.165, 1),
+    background-color 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+#gold-toggle.activated {
+  background-color: #333;
+  color: #222;
+}
+#gold-toggle.activated:hover {
+  background-color: #585125;
+}
+#gold-toggle:not(.activated):hover {
+  background-color: #333;
+}

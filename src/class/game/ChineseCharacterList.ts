@@ -22,6 +22,7 @@ export default class ChineseCharacterList {
   readonly listWrapperEl: HTMLElement;
   readonly listTitleEl: HTMLElement;
   private readonly listItemEls: ListItemEl[];
+  hideCompleted: boolean;
 
   constructor(game: Game, options: ChineseCharacterListOptions) {
     this.game = game;
@@ -32,6 +33,8 @@ export default class ChineseCharacterList {
     this.listTitleEl = options.listTitleEl;
     this.listWrapperEl = options.listWrapperEl;
     this.listItemEls = [];
+
+    this.hideCompleted = false;
 
     this.init();
   }
@@ -99,6 +102,14 @@ export default class ChineseCharacterList {
     }
     
     this.updateTitle();
+  }
+
+  update() {
+    for (let i = 0; i < this.listItemEls.length; i++) {
+      const itemEl = this.listItemEls[i];
+      const progress = this.getProgress(i);
+      itemEl.wrapper.style.display = progress >= 1 && this.hideCompleted ? "none" : "";
+    }
   }
 
   updateTitle() {
