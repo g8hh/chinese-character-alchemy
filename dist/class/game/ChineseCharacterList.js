@@ -8,6 +8,7 @@ export default class ChineseCharacterList {
         this.listTitleEl = options.listTitleEl;
         this.listWrapperEl = options.listWrapperEl;
         this.listItemEls = [];
+        this.hideCompleted = false;
         this.init();
     }
     init() {
@@ -64,6 +65,13 @@ export default class ChineseCharacterList {
             this.updateEl(shape.index);
         }
         this.updateTitle();
+    }
+    update() {
+        for (let i = 0; i < this.listItemEls.length; i++) {
+            const itemEl = this.listItemEls[i];
+            const progress = this.getProgress(i);
+            itemEl.wrapper.style.display = progress >= 1 && this.hideCompleted ? "none" : "";
+        }
     }
     updateTitle() {
         const titleEl = this.listTitleEl;

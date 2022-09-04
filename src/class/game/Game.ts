@@ -39,6 +39,11 @@ export default class Game {
     }
   }
 
+  toggleHideCompleted() {
+    this.list.hideCompleted = !this.list.hideCompleted;
+    this.list.update();
+  }
+
   unlockItem(idx: number) {
     this.list.unlockItem(idx);
     this.unlockBases();

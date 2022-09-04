@@ -26,6 +26,10 @@ for (const collection of collections) {
   game.collectionList.addCollection(collection);
 }
 
+(document.getElementById("gold-toggle") as HTMLDivElement).addEventListener("click", () => {
+  game.toggleHideCompleted();
+});
+
 let lastSave = Date.now();
 function tick() {
   const time = Date.now();

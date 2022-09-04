@@ -6,15 +6,18 @@ type CollectionItems = (ChineseCharacter | null)[][];
 interface CollectionOptions {
   name: string;
   items: CollectionItems;
+  hintCount?: number;
 }
 
 export default class Collection {
   readonly name: string;
   readonly items: CollectionItems;
+  hintCount: number;
 
   constructor(options: CollectionOptions) {
     this.name = options.name;
     this.items = options.items;
+    this.hintCount = options.hintCount ?? 1;
   }
 
   getUnlocked(list: ChineseCharacterList): (boolean | null)[][] {
