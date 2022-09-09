@@ -28,7 +28,7 @@ document.getElementById("gold-toggle").addEventListener("click", () => {
 const collectionsEl = document.getElementById("collections");
 document.addEventListener("keydown", (e) => {
     const key = e.key;
-    if (key === "c") {
+    if (!e.ctrlKey && key === "c") {
         collectionsEl.classList.toggle('hidden');
     }
 });

@@ -33,7 +33,7 @@ for (const collection of collections) {
 const collectionsEl = document.getElementById("collections") as HTMLDivElement;
 document.addEventListener("keydown", (e) => {
   const key = e.key;
-  if (key === "c") {
+  if (!e.ctrlKey && key === "c") {
     collectionsEl.classList.toggle('hidden');
   }
 });
