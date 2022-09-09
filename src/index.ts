@@ -30,6 +30,14 @@ for (const collection of collections) {
   game.toggleHideCompleted();
 });
 
+const collectionsEl = document.getElementById("collections") as HTMLDivElement;
+document.addEventListener("keydown", (e) => {
+  const key = e.key;
+  if (key === "c") {
+    collectionsEl.classList.toggle('hidden');
+  }
+});
+
 let lastSave = Date.now();
 function tick() {
   const time = Date.now();
