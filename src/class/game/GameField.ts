@@ -1,12 +1,20 @@
 import Field from "../util/Field.js";
 import GameFieldItem from "./GameFieldItem.js";
+import chineseCharacters from "../../data/chineseCharacters.js";
 import parseMouseButtons from "../../util/parseMouseButtons.js";
 import type ChineseCharacter from "./ChineseCharacter.js";
 import type Game from "./Game.js";
 
+interface FieldSavedataItem {
+  glyph: string;
+  position: [x: number, y: number];
+}
+type FieldSavedata = FieldSavedataItem[];
+
 export interface GameFieldOptions {
   canvasWrapper: HTMLElement;
   canvas: HTMLCanvasElement;
+  fieldSaveData: FieldSavedata;
 }
 
 const fontFamilys = ["NanumGothic", "NotoSansSC"];
@@ -17,12 +25,14 @@ export default class GameField {
   private readonly field: Field;
   readonly canvasEl: HTMLCanvasElement;
   private isMouseDown: boolean;
+  private cameraOffset: [x: number, y: number];
   private selectedItem: GameFieldItem | undefined;
   private lastPosition: [x: number, y: number];
 
   constructor(game: Game, options: GameFieldOptions) {
     this.game = game;
     this.items = [];
+    this.cameraOffset = [0, 0];
     this.field = new Field({
       camera: {
         x: 0,
@@ -41,10 +51,7 @@ export default class GameField {
     this.canvasEl.addEventListener("mousemove", (e) => {
       let curPosition: [x: number, y: number] = [e.offsetX, e.offsetY];
       
-      if (
-        this.isMouseDown &&
-        this.selectedItem
-      ) {
+      if (this.isMouseDown) {
         const { x: x1, y: y1 } = this.field.globalToLocalAttr({
           x: this.lastPosition[0],
           y: this.lastPosition[1]
@@ -53,8 +60,13 @@ export default class GameField {
           x: curPosition[0],
           y: curPosition[1]
         });
-        this.selectedItem.position[0] += x2 - x1;
-        this.selectedItem.position[1] += y2 - y1;
+        if (this.selectedItem) {
+          this.selectedItem.position[0] += x2 - x1;
+          this.selectedItem.position[1] += y2 - y1;
+        } else {
+          this.cameraOffset[0] += x2 - x1;
+          this.cameraOffset[1] += y2 - y1;
+        }
       }
 
       this.lastPosition = curPosition;
@@ -165,6 +177,10 @@ export default class GameField {
     document.addEventListener("blur", () => {
       this.isMouseDown = false;
     });
+
+    if (options.fieldSaveData.length > 0) {
+      this.importData(options.fieldSaveData);
+    }
   }
   
   addItem(chineseCharacter: ChineseCharacter) {
@@ -191,6 +207,7 @@ export default class GameField {
 
   private drawShapeTree(root: ChineseCharacter) {
     const field = this.field;
+    const [xOffset, yOffset] = this.cameraOffset;
     const tier = root.getTier();
 
     type TreeRow = [chineseCharacter: ChineseCharacter | null, weight: number][];
@@ -213,8 +230,8 @@ export default class GameField {
           nextRow.push([null, weight]);
           continue;
         }
-        const x = 10 + 80 * (weightAcc + weight / 2);
-        const y = -35 + i * 11;
+        const x = 10 + 80 * (weightAcc + weight / 2) - xOffset;
+        const y = -35 + i * 11 - yOffset;
         field.fillText({
           x, y,
           text: chineseCharacter.glyph,
@@ -238,8 +255,8 @@ export default class GameField {
             parent = prevRow[parentIdx];
           }
           if (parent) {
-            const parentX = 10 + 80 * (parentWeightAcc + parent[1] / 2);
-            const parentY = -35 + (i - 1) * 11;
+            const parentX = 10 + 80 * (parentWeightAcc + parent[1] / 2) - xOffset;
+            const parentY = -35 + (i - 1) * 11 - yOffset;
             field.drawLine(parentX, parentY + 3, x, y - 3);
           }
         }
@@ -269,8 +286,8 @@ export default class GameField {
       const chineseCharacter = parents[i];
       const text = unlocked.includes(chineseCharacter.index) ?  chineseCharacter.glyph : "？";
       
-      const x = 75 + (25 * (i%size) / size);
-      const y = -40 + (25 * Math.floor(i/size) / size);
+      const x = 75 + (25 * (i%size) / size) - xOffset;
+      const y = -40 + (25 * Math.floor(i/size) / size) - yOffset;
       field.fillText({
         x, y,
         text,
@@ -289,13 +306,20 @@ export default class GameField {
     const field = this.field;
     field.clear();
 
+    const [xOffset, yOffset] = this.cameraOffset;
+    field.x = 0 - xOffset;
+    field.y = -50 - yOffset;
+
     if (this.selectedItem) this.drawShapeTree(this.selectedItem.chineseCharacter);
 
     field.strokeStyle = "#fff";
     field.fillStyle = "#222";
 
     for (const item of [...this.items].reverse()) {
-      const { position: [x, y], size } = item;
+      let { position: [x, y], size } = item;
+      const parallaxFactor = 0 ?? item.chineseCharacter.getTier() / 10;
+      x += xOffset * parallaxFactor;
+      y += yOffset * parallaxFactor;
       field.fillRect(x - size/2, y - size/2, size, size);
       field.strokeRect(x - size/2, y - size/2, size, size);
       field.fillText({
@@ -311,6 +335,39 @@ export default class GameField {
       });
     }
 
+    field.fillText({
+      x: -this.cameraOffset[0], y: -45-this.cameraOffset[1],
+      text: `(x: ${this.cameraOffset[0].toFixed(3).padStart(10, " ")}, y: ${this.cameraOffset[1].toFixed(3).padStart(10, " ")})`,
+      color: "#fff",
+      font: {
+        fontFamilys
+      },
+      maxWidth: 15,
+      baseline: "middle",
+      textAlign: "left",
+    });
+
     field.render();
+  }
+
+  exportData() {
+    const data: FieldSavedata = [];
+    for (const item of this.items) {
+      const glyph = item.chineseCharacter.glyph;
+      const position = [...item.position] as typeof item.position;
+      data.push({ glyph, position });
+    }
+    return data;
+  }
+
+  importData(data: FieldSavedata) {
+    this.items = [];
+    for (const item of data) {
+      const chineseCharacter = chineseCharacters.find(c => c.glyph === item.glyph);
+      if (!chineseCharacter) continue;
+      const fieldItem = new GameFieldItem(chineseCharacter);
+      [fieldItem.position[0], fieldItem.position[1]] = item.position;
+      this.items.push(fieldItem);
+    }
   }
 }

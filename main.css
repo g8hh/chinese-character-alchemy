@@ -414,3 +414,35 @@ body {
 #gold-toggle:not(.activated):hover {
   background-color: #333;
 }
+
+#save-space {
+  position: absolute;
+  bottom: 2vmin;
+  right: 12vmin;
+
+  width: 3vmin;
+  height: 3vmin;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.4em;
+
+  background-color: #333;
+  border-radius: 50%;
+  box-shadow: 0 0 0.5vmin #888;
+
+  cursor: pointer;
+  transition:
+    color 0.6s cubic-bezier(0.075, 0.82, 0.165, 1),
+    background-color 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+#save-space:hover {
+  background-color: #08a157;
+}
+#save-space:active {
+  background-color: #caca39;
+}
