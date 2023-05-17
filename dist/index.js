@@ -3,6 +3,8 @@ import chineseCharacters from "./data/chineseCharacters.js";
 import collections from "./data/collections.js";
 const saveKey = "hanja_game";
 const savedata = localStorage.getItem(saveKey);
+const fieldSaveKey = "hanja_game_field";
+const fieldSaveData = localStorage.getItem(fieldSaveKey);
 const game = new Game({
     chineseCharacterList: {
         chineseCharacters,
@@ -13,6 +15,7 @@ const game = new Game({
     gameField: {
         canvas: document.getElementById("game-canvas"),
         canvasWrapper: document.getElementById("game-canvas-wrapper"),
+        fieldSaveData: fieldSaveData !== null ? JSON.parse(fieldSaveData) : []
     },
     collectionList: {
         collectionListEl: document.getElementById("collection-list"),
@@ -24,6 +27,9 @@ for (const collection of collections) {
 }
 document.getElementById("gold-toggle").addEventListener("click", () => {
     game.toggleHideCompleted();
+});
+document.getElementById("save-space").addEventListener("click", () => {
+    localStorage.setItem(fieldSaveKey, JSON.stringify(game.field.exportData()));
 });
 const collectionsEl = document.getElementById("collections");
 document.addEventListener("keydown", (e) => {
