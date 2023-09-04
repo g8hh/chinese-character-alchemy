@@ -13,35 +13,47 @@ const game = new Game({
     chineseCharacters,
     listWrapperEl: document.getElementById("list-wrapper") as HTMLDivElement,
     listTitleEl: document.getElementById("list-title") as HTMLDivElement,
-    unlocked: savedata !== null ? JSON.parse(savedata) : []
+    unlocked: savedata !== null ? JSON.parse(savedata) : [],
   },
   gameField: {
     canvas: document.getElementById("game-canvas") as HTMLCanvasElement,
-    canvasWrapper: document.getElementById("game-canvas-wrapper") as HTMLDivElement,
-    fieldSaveData: fieldSaveData !== null ? JSON.parse(fieldSaveData) : []
+    canvasWrapper: document.getElementById(
+      "game-canvas-wrapper"
+    ) as HTMLDivElement,
+    fieldSaveData: fieldSaveData !== null ? JSON.parse(fieldSaveData) : [],
   },
   collectionList: {
-    collectionListEl: document.getElementById("collection-list") as HTMLDivElement,
-    collectionDisplayEl: document.getElementById("collection-display") as HTMLDivElement
-  }
+    collectionListEl: document.getElementById(
+      "collection-list"
+    ) as HTMLDivElement,
+    collectionDisplayEl: document.getElementById(
+      "collection-display"
+    ) as HTMLDivElement,
+  },
 });
 
 for (const collection of collections) {
   game.collectionList.addCollection(collection);
 }
 
-(document.getElementById("gold-toggle") as HTMLDivElement).addEventListener("click", () => {
-  game.toggleHideCompleted();
-});
-(document.getElementById("save-space") as HTMLDivElement).addEventListener("click", () => {
-  localStorage.setItem(fieldSaveKey, JSON.stringify(game.field.exportData()));
-});
+(document.getElementById("gold-toggle") as HTMLDivElement).addEventListener(
+  "click",
+  () => {
+    game.toggleHideCompleted();
+  }
+);
+(document.getElementById("save-space") as HTMLDivElement).addEventListener(
+  "click",
+  () => {
+    localStorage.setItem(fieldSaveKey, JSON.stringify(game.field.exportData()));
+  }
+);
 
 const collectionsEl = document.getElementById("collections") as HTMLDivElement;
 document.addEventListener("keydown", (e) => {
   const key = e.key;
   if (!e.ctrlKey && key === "c") {
-    collectionsEl.classList.toggle('hidden');
+    collectionsEl.classList.toggle("hidden");
   }
 });
 
@@ -52,7 +64,7 @@ function tick() {
     localStorage.setItem(saveKey, JSON.stringify(game.getSavedata()));
     lastSave = time;
   }
-  
+
   game.render();
   requestAnimationFrame(tick);
 }

@@ -10,17 +10,17 @@ const game = new Game({
         chineseCharacters,
         listWrapperEl: document.getElementById("list-wrapper"),
         listTitleEl: document.getElementById("list-title"),
-        unlocked: savedata !== null ? JSON.parse(savedata) : []
+        unlocked: savedata !== null ? JSON.parse(savedata) : [],
     },
     gameField: {
         canvas: document.getElementById("game-canvas"),
         canvasWrapper: document.getElementById("game-canvas-wrapper"),
-        fieldSaveData: fieldSaveData !== null ? JSON.parse(fieldSaveData) : []
+        fieldSaveData: fieldSaveData !== null ? JSON.parse(fieldSaveData) : [],
     },
     collectionList: {
         collectionListEl: document.getElementById("collection-list"),
-        collectionDisplayEl: document.getElementById("collection-display")
-    }
+        collectionDisplayEl: document.getElementById("collection-display"),
+    },
 });
 for (const collection of collections) {
     game.collectionList.addCollection(collection);
@@ -35,7 +35,7 @@ const collectionsEl = document.getElementById("collections");
 document.addEventListener("keydown", (e) => {
     const key = e.key;
     if (!e.ctrlKey && key === "c") {
-        collectionsEl.classList.toggle('hidden');
+        collectionsEl.classList.toggle("hidden");
     }
 });
 let lastSave = Date.now();
